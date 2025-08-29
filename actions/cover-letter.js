@@ -25,7 +25,7 @@ export async function generateCoverLetter(data) {
     About the candidate:
     - Industry: ${user.industry}
     - Years of Experience: ${user.experience}
-    - Skills: ${user.skills?.join(", ")}
+    - Skillset: ${user.skills?.join(", ")}
     - Professional Background: ${user.bio}
     
     Job Description:
