@@ -1,5 +1,5 @@
 // middleware.js
-import { authMiddleware } from "@clerk/nextjs/edge";
+import { authMiddleware } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 const protectedPrefixes = [
