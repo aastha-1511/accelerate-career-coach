@@ -1,32 +1,25 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
-import { NextResponse } from 'next/server';
+import { authMiddleware } from "@clerk/nextjs";
+import { createRouteMatcher } from "@clerk/nextjs/server";
 
-const isProtectedRoute= createRouteMatcher([
-    "/dashboard(.*)",
-    "/resume(.*)",
-    "/interview(.*)",
-    "/ai-cover-letter(.*)",
-    "/onboarding(.*)",
+const isProtectedRoute = createRouteMatcher([
+  "/dashboard(.*)",
+  "/resume(.*)",
+  "/interview(.*)",
+  "/ai-cover-letter(.*)",
+  "/onboarding(.*)",
 ]);
 
-export default clerkMiddleware(async(auth,req)=>{
-    const {userId}= await auth();
+export default authMiddleware({
+  beforeAuth: (req) => {
+    if (!isProtectedRoute(req)) return;
+  },
+  publicRoutes: ["/", "/sign-in", "/sign-up"],
+});
 
-    if(!userId && isProtectedRoute(req)){
-        const {redirectToSignIn} =await auth();
-        return redirectToSignIn();
-    }
-
-    return NextResponse.next();
-}
-);
-
+// DO NOT force node runtime — middleware must run on Edge for Clerk 6.x
 export const config = {
-    runtime: "nodejs",
   matcher: [
-    // Skip Next.js internals and all static files, unless found in search params
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    // Always run for API routes
-    '/(api|trpc)(.*)',
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpg|png|gif|svg|ico|ttf|woff2?|woff)).*)",
+    "/(api|trpc)(.*)",
   ],
 };
