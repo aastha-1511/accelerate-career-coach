@@ -1,41 +1,32 @@
-// middleware.js
-import { authMiddleware } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
 
-const protectedPrefixes = [
-  "/dashboard",
-  "/resume",
-  "/interview",
-  "/ai-cover-letter",
-  "/onboarding",
-];
+const isProtectedRoute= createRouteMatcher([
+    "/dashboard(.*)",
+    "/resume(.*)",
+    "/interview(.*)",
+    "/ai-cover-letter(.*)",
+    "/onboarding(.*)",
+]);
 
-function handleAuth(req) {
-  const pathname = req.nextUrl.pathname;
+export default clerkMiddleware(async(auth,req)=>{
+    const {userId}= await auth();
 
-  if (!protectedPrefixes.some((p) => pathname.startsWith(p))) return;
+    if(!userId && isProtectedRoute(req)){
+        const {redirectToSignIn} =await auth();
+        return redirectToSignIn();
+    }
 
-  const userId = req.auth?.userId;
-  if (!userId) {
-    const url = new URL("/sign-in", req.url);
-    return NextResponse.redirect(url);
-  }
+    return NextResponse.next();
 }
-
-export default authMiddleware({
-  publicRoutes: ["/", "/sign-in", "/sign-up"],
-
-  afterAuth: (auth, req) => {
-    return handleAuth(req);
-  },
-});
+);
 
 export const config = {
   matcher: [
-    "/dashboard/:path*",
-    "/resume/:path*",
-    "/interview/:path*",
-    "/ai-cover-letter/:path*",
-    "/onboarding/:path*",
+    // Skip Next.js internals and all static files, unless found in search params
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    // Always run for API routes
+    '/(api|trpc)(.*)',
   ],
 };
+
