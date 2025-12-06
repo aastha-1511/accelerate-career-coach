@@ -1,4 +1,4 @@
-# accelerate-career-coach
+# Accelerate-career-coach
 
 
 A modern Next.js application scaffolded with Tailwind CSS, Prisma, Clerk authentication, and integrations for generative AI and background jobs (Inngest). It includes ready-made pages for onboarding, dashboard, AI-powered cover letter and resume helpers, and a Prisma schema with migrations.
