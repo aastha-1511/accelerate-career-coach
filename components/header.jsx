@@ -1,7 +1,9 @@
+"use client";
+
 import { SignedIn, SignedOut, SignInButton, UserAvatar, UserButton } from '@clerk/nextjs'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React,{ useState } from 'react'
 import { Button } from './ui/button'
 import { ChevronDown, FileText, GraduationCap, LayoutDashboard, PenBox, StarsIcon } from 'lucide-react'
 import {
@@ -14,7 +16,7 @@ import { checkUser } from '@/lib/checkUser'
 
 const Header = async() => {
     await checkUser();
-
+    const [open, setOpen] = useState(false);
     return (
         <div>
             <header className='fixed top-0 w-full border-b bg-background/80 backdrop-blur-md z-50 supports-[backdrop-filter]:bg-background/60'>
@@ -33,35 +35,38 @@ const Header = async() => {
                                 </Button>
                             </Link>
                         
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
+                        <DropdownMenu open={open} onOpenChange={setOpen}>
+                              <DropdownMenuTrigger asChild>
                                 <Button>
-                                    <StarsIcon className='h-4 w-4' />
-                                    <span className='hidden md:block'>Growth Tools</span>
-                                    <ChevronDown className='h-4 w-4' />
+                                  <StarsIcon className="h-4 w-4" />
+                                  <span className="hidden md:block">Growth Tools</span>
+                                  <ChevronDown className="h-4 w-4" />
                                 </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent className="w-56" align="start">
-                                <DropdownMenuItem>
-                                    <Link href={"/resume"} className="flex item-center-gap-2">
-                                        <FileText className='h-4 w-4' />
-                                        <span> Build Resume</span>
-                                    </Link>
+                              </DropdownMenuTrigger>
+                        
+                              <DropdownMenuContent className="w-56" align="start">
+                                <DropdownMenuItem asChild>
+                                  <Link href="/resume" onClick={() => setOpen(false)}>
+                                    <FileText className="h-4 w-4 mr-2" />
+                                    Build Resume
+                                  </Link>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <Link href={"/ai-cover-letter"} className="flex item-center-gap-2">
-                                        <PenBox className='h-4 w-4' />
-                                         Cover Letter
-                                    </Link>
+                        
+                                <DropdownMenuItem asChild>
+                                  <Link href="/ai-cover-letter" onClick={() => setOpen(false)}>
+                                    <PenBox className="h-4 w-4 mr-2" />
+                                    Cover Letter
+                                  </Link>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <Link href={"/interview"} className="flex item-center-gap-2">
-                                        <GraduationCap className='h-4 w-4' />
-                                        <span> Interview Prep</span>
-                                    </Link>
+                        
+                                <DropdownMenuItem asChild>
+                                  <Link href="/interview" onClick={() => setOpen(false)}>
+                                    <GraduationCap className="h-4 w-4 mr-2" />
+                                    Interview Prep
+                                  </Link>
                                 </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
                         </SignedIn>
                         <SignedOut>
                             <SignInButton>
