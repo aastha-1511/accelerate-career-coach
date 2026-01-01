@@ -19,7 +19,7 @@ export const testimonial = [
     quote:
       "My resume's ATS score improved significantly. Got more interviews in two weeks than in six months!",
     author: "Priya Patel",
-    image: "/test3.jpg"
+    image: "/test3.jpg",
     role: "Marketing Director",
     company: "Global Corp",
   },
