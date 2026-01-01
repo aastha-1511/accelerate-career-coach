@@ -124,23 +124,23 @@ export default function Home() {
                       ))}
                     </div>
                     
-                    <blockquote className="mb-4">
-                      <p className="text-muted-foreground italic relative leading-relaxed">
-                        <span className="text-4xl text-primary/30 absolute -top-2 -left-1">&quot;</span>
-                        <span className="relative z-10">{testimonial.quote}</span>
-                        <span className="text-4xl text-primary/30">&quot;</span>
-                      </p>
-                    </blockquote>
+                    <blockquote className="relative pl-6">
+                        <span className="absolute -left-1 -top-2 text-4xl text-primary opacity-20">
+                          “
+                        </span>
+                        <p className="text-muted-foreground italic">
+                          {testimonial.quote}
+                        </p>
+                      </blockquote>
                     
                     <div className="flex items-center space-x-4 pt-4 border-t">
                       <div className="relative h-12 w-12 flex-shrink-0">
-                        <Image 
-                          width={48} 
-                          height={48} 
-                          src={testimonial.image} 
-                          alt={testimonial.author} 
-                          className="rounded-full object-cover border-2 border-primary/20" 
-                        />
+                          <Image
+                            src={testimonial.image}
+                            alt={testimonial.author}
+                            fill
+                            className="rounded-full object-cover border-2 border-primary/20"
+                          />
                       </div>
                       <div>
                         <p className="font-semibold">{testimonial.author}</p>
