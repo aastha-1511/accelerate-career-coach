@@ -5,8 +5,7 @@ import Header from "@/components/header";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
 
-
-const inter=Inter({ subsets: ["latin"]});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Accelerate AI Career Coach",
@@ -15,33 +14,33 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider appearance={{
-      baseTheme:"dark"
-    }}>
+    <ClerkProvider appearance={{ baseTheme: "dark" }}>
       <html lang="en" suppressHydrationWarning>
-        <body
-          className={`${inter.className}`}
-        >
+        <body className={`${inter.className} min-h-screen overflow-x-hidden`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
             enableSystem
             disableTransitionOnChange
           >
-            {/* header */}
             <Header />
-            <main className="min-h-screen">{children}</main>
-            <Toaster richColors/>
-            {/*footer */}
+
+            {/* MAIN CONTENT */}
+            <main className="min-h-screen">
+              {children}
+            </main>
+
+            <Toaster richColors />
+
+            {/* FOOTER */}
             <footer className="bg-muted/50 py-12">
               <div className="container mx-auto px-4 text-center text-gray-200">
-                <p>Made with ❤️ </p>
+                <p>Made with ❤️</p>
               </div>
             </footer>
           </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
-
   );
 }
